@@ -277,11 +277,45 @@ video {
   font-weight: 500;
 }
 
-.mark {
+/* The animated mark is a button. Idle layout matches the old span:
+   the frame holds the aspect ratio, the button fills it, and the
+   spark game (loaded on click) is a sibling layered on top. */
+.mark-frame {
   position: relative;
   width: 100%;
   aspect-ratio: 800 / 602;
   background: transparent;
+}
+
+.mark {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: 0;
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.mark::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+.mark.is-quiet {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .logo-still,
@@ -308,9 +342,17 @@ video {
   visibility: hidden;
 }
 
+.wordmark-title {
+  width: 62%;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 0;
+}
+
 .wordmark {
   display: block;
-  width: 62%;
+  width: 100%;
   height: auto;
   margin-top: clamp(0.85rem, 2.2vw, 1.5rem);
 }
@@ -338,6 +380,11 @@ video {
 
   .mark.is-playing .logo-still {
     visibility: visible;
+  }
+
+  .mark.is-quiet.is-playing .logo-still,
+  .mark.is-quiet .logo-motion {
+    visibility: hidden !important;
   }
 }
 
@@ -724,5 +771,167 @@ video {
   .contact-panel {
     width: calc(100vw - 0.9rem);
     padding: 0.8rem 0.75rem 0.9rem;
+  }
+}
+
+/* Hidden spark game. The script is loaded on the first click;
+   these rules only apply once .spark exists. */
+html.spark-lock,
+html.spark-lock body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+html.spark-lock .hero {
+  touch-action: none;
+}
+
+.spark {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: #0B0710;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.spark canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: transparent;
+}
+
+.spark-bar {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  z-index: 3;
+  display: flex;
+  gap: 0.3rem;
+}
+
+.spark-icon,
+.spark-pad button,
+.spark-restart {
+  margin: 0;
+  border: 2px solid rgba(243, 238, 230, 0.85);
+  background: rgba(11, 7, 16, 0.82);
+  color: #F3EEE6;
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  cursor: pointer;
+}
+
+.spark-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border-radius: 999px;
+}
+
+.spark-icon:hover,
+.spark-icon:focus-visible,
+.spark-pad button:hover,
+.spark-pad button:focus-visible,
+.spark-restart:hover,
+.spark-restart:focus-visible {
+  background: #6E0B14;
+  color: #F3EEE6;
+}
+
+.spark-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.spark-help {
+  width: min(34rem, 94%);
+  margin: 0.7rem 0 0;
+  padding: 0 0.4rem;
+  color: #F3EEE6;
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.spark-pad {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 0.4rem;
+  z-index: 3;
+  transform: translateX(-50%);
+  grid-template-columns: 2.75rem 2.75rem 2.75rem;
+  grid-template-areas:
+    ". up ."
+    "left down right";
+  gap: 0.3rem;
+}
+
+.spark-pad button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border-radius: 10px;
+  touch-action: manipulation;
+}
+
+.spark-pad button[data-dir="up"] { grid-area: up; }
+.spark-pad button[data-dir="down"] { grid-area: down; }
+.spark-pad button[data-dir="left"] { grid-area: left; }
+.spark-pad button[data-dir="right"] { grid-area: right; }
+
+.spark-over {
+  position: absolute;
+  left: 50%;
+  bottom: 11%;
+  z-index: 4;
+  transform: translateX(-50%);
+}
+
+.spark-over[hidden] {
+  display: none;
+}
+
+.spark-restart {
+  min-height: 2.75rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@media (pointer: coarse), (max-width: 720px) {
+  .spark-pad {
+    display: grid;
+    position: fixed;
+    bottom: max(0.45rem, env(safe-area-inset-bottom));
+    z-index: 40;
+  }
+}
+
+@media (max-height: 640px) {
+  .spark-help {
+    display: none;
   }
 }
