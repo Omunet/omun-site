@@ -5,12 +5,11 @@
    then put data-i18n="that.key" on the element (data-i18n-aria or
    data-i18n-alt for attributes). Icon names are listed in js/site.js.
 
-   formEndpoint: after deploying form-backend/Code.gs, paste the web app
-   URL that ends in /exec. Leave the placeholder until then. Do not point
-   this at the Spectrum Patronum deployment. */
+   formEndpoint: the Omun Apps Script web app (/exec). Do not point this
+   at the Spectrum Patronum deployment. */
 (function (global) {
   global.OMUN = {
-    formEndpoint: "https://script.google.com/macros/s/REPLACE_WITH_OMUN_DEPLOYMENT/exec",
+    formEndpoint: "https://script.google.com/macros/s/AKfycbzzEFqyCOoDkTp2qC788N3NAiFWGh5jJsF7oDkuxHMhadbhjc0kbiC6GOZQadfdc1Le/exec",
     formToken: "",
     socials: [
       // { name: "Instagram", url: "https://www.instagram.com/example", icon: "instagram" },

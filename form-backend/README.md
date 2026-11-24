@@ -6,12 +6,12 @@ This is a new deployment. Do not reuse the Spectrum Patronum `/exec` URL. That d
 
 ## Deploy
 
-A new Apps Script deployment is required before the form can send anything. Until `formEndpoint` in `js/config.js` is replaced, the form tells the visitor it is not available.
+`formEndpoint` in `js/config.js` already points at the deployed web app.
 
 1. Open [Google Apps Script](https://script.google.com) while signed in to a Google account Omun controls. Do not use the Spectrum Patronum account. `MailApp` sends as the account you deploy with. The messages are delivered to the script property below, so that Google account does not have to be the inbox itself.
 2. Create a project and replace the default script with `Code.gs` from this folder.
 3. In the Apps Script editor, open **Project settings** and add **Script properties**:
-   - `RECIPIENT`: `info@omun.net`. Set it only here.
+   - `RECIPIENT`: the inbox that should receive messages. Set it only here. Do not write that address in this repository, the page, or the script.
    - `SHARED_SECRET` (optional): if this is set, each request must include the same value as `formToken` in `js/config.js`. The page source is public, so this only stops clients that never read the script.
    - `ALLOWED_ORIGINS` (optional): `https://omun.net,https://www.omun.net`. The page sends `location.origin`.
 4. Choose **Deploy**, then **New deployment**. Click the gear, choose **Web app**, and set:
@@ -19,8 +19,7 @@ A new Apps Script deployment is required before the form can send anything. Unti
    - **Who has access:** Anyone
      (older editors call this "Anyone, even anonymous")
 5. Authorize sending mail when Google asks. The script runs as the account you deploy with and only sends email. It does not write the message to a spreadsheet, Drive, or anywhere else.
-6. Copy the web app URL that ends in `/exec`.
-7. Put that URL in `formEndpoint` in `js/config.js`, replacing the `REPLACE_WITH_OMUN_DEPLOYMENT` placeholder.
+6. Copy the web app URL that ends in `/exec` into `formEndpoint` in `js/config.js` if a new deployment has a different URL.
 
 After editing `Code.gs`, open **Deploy**, **Manage deployments**, edit the web app, and select **New version**. That keeps the same `/exec` URL. You redeploy the script yourself; this repository does not deploy it.
 

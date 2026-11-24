@@ -29,6 +29,6 @@ Icon names (`instagram`, `youtube`, `email`, `x`, `mastodon`, `github`, `faceboo
 
 Where the browser can composite VP9 alpha (Chrome, Edge, Firefox), the page plays `assets/omun-spark.webm` and the transparent pixels show `#0B0710`. Safari, including iOS, plays `assets/omun-spark.mp4`. That file is the same animation composited on `#0B0710`, because H.264 has no alpha; 4:2:0 rounding leaves the flat field one step of blue off the page colour, which does not read as a box. `prefers-reduced-motion` keeps the still frame `assets/omun-spark-still.webp` and does not request a video.
 
-There is no analytics. The page does not load a third-party host. Sending the contact form posts to the Google Apps Script URL in `formEndpoint` (`js/config.js`). That value is a placeholder until `form-backend/Code.gs` is deployed. See `form-backend/README.md`. The form does not show an inbox address.
+There is no analytics. The page does not load a third-party host. Sending the contact form posts to the Google Apps Script URL in `formEndpoint` (`js/config.js`). See `form-backend/README.md`. The form does not show an inbox address.
 
 Accent colour is blood red (`#6E0B14` on buttons, `#C41E28` on focus rings and thin marks). There is no yellow.
