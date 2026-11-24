@@ -234,9 +234,72 @@
     if (play && play.catch) play.catch(function () {});
   }
 
+  /* Clicking the animated mark lazy-loads the spark game. The script
+     stays off the first paint. Esc and the game's close button call
+     OMUN_SPARK.exit, which puts the logo back. */
+  function closePopovers() {
+    var menu = document.getElementById("lang-menu");
+    var langBtn = document.getElementById("lang-btn");
+    if (menu && !menu.hidden) {
+      menu.hidden = true;
+      if (langBtn) langBtn.setAttribute("aria-expanded", "false");
+    }
+    var panel = document.getElementById("contact-panel");
+    if (panel && !panel.hidden) {
+      var closer = document.getElementById("contact-close");
+      if (closer) closer.click();
+    }
+  }
+
+  var sparkScript = null;
+  var sparkLoading = false;
+
+  function ensureSpark(done) {
+    if (window.OMUN_SPARK) {
+      done(true);
+      return;
+    }
+    function finish() {
+      done(!!window.OMUN_SPARK);
+    }
+    if (sparkScript) {
+      sparkScript.addEventListener("load", finish);
+      sparkScript.addEventListener("error", finish);
+      return;
+    }
+    sparkScript = document.createElement("script");
+    sparkScript.src = "/js/spark.js";
+    sparkScript.async = true;
+    sparkScript.onload = finish;
+    sparkScript.onerror = function () {
+      sparkScript = null;
+      done(false);
+    };
+    document.body.appendChild(sparkScript);
+  }
+
+  function setupSpark() {
+    var mark = document.getElementById("mark");
+    if (!mark) return;
+
+    mark.addEventListener("click", function () {
+      if (sparkLoading || mark.classList.contains("is-quiet")) return;
+      sparkLoading = true;
+      mark.setAttribute("aria-busy", "true");
+      closePopovers();
+      ensureSpark(function (ok) {
+        sparkLoading = false;
+        mark.removeAttribute("aria-busy");
+        if (!ok || !window.OMUN_SPARK || mark.classList.contains("is-quiet")) return;
+        window.OMUN_SPARK.start(mark);
+      });
+    });
+  }
+
   applyCopy();
   fillSlot(document.getElementById("social-list"), cfg.socials, "social");
   fillSlot(document.getElementById("menu-list"), cfg.menu, "menu");
   setupLanguage();
   startMotion();
+  setupSpark();
 })();

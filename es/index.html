@@ -137,13 +137,17 @@
   </header>
 
   <main id="content" class="hero">
-    <h1 class="lockup">
-      <span class="mark" id="mark">
-        <img class="logo-still" src="/assets/omun-spark-still.webp" alt="" width="800" height="602" decoding="async" fetchpriority="high">
-        <video class="logo-motion" autoplay muted loop playsinline webkit-playsinline preload="none" width="800" height="602" tabindex="-1" aria-hidden="true" disablepictureinpicture></video>
-      </span>
-      <img class="wordmark" src="/assets/wordmark.png" alt="Omun" width="1000" height="274" data-i18n-alt="logo.alt" decoding="async">
-    </h1>
+    <div class="lockup">
+      <div class="mark-frame" id="mark-frame">
+        <button type="button" class="mark" id="mark" data-i18n-aria="logo.play" aria-label="Jugar al juego oculto">
+          <img class="logo-still" src="/assets/omun-spark-still.webp" alt="" width="800" height="602" decoding="async" fetchpriority="high" draggable="false">
+          <video class="logo-motion" autoplay muted loop playsinline webkit-playsinline preload="none" width="800" height="602" tabindex="-1" aria-hidden="true" disablepictureinpicture></video>
+        </button>
+      </div>
+      <h1 class="wordmark-title">
+        <img class="wordmark" src="/assets/wordmark.png" alt="Omun" width="1000" height="274" data-i18n-alt="logo.alt" decoding="async" draggable="false">
+      </h1>
+    </div>
   </main>
 
   <footer class="site-footer">
