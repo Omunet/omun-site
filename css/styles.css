@@ -1,0 +1,333 @@
+/* Omun — homepage
+   Page colour #0B0710. Header follows the Spectrum Patronum pattern:
+   fixed bar, social slot at the left, icon menu in the centre, language globe at the right.
+   Type is self-hosted Cinzel (OFL). No external fonts or requests. */
+
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/cinzel-500-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/cinzel-500-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  --bg: #0B0710;
+  --text: #F3EEE6;
+  --muted: #D7D0C6;
+  --line: rgba(243, 238, 230, 0.16);
+  --hover: rgba(243, 238, 230, 0.08);
+  --font: "Cinzel", "Palatino Linotype", Palatino, "Times New Roman", serif;
+  --header-h: 3.4rem;
+  --accent: #F5C536;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: #774C99;
+  color: var(--text);
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+.skip {
+  position: fixed;
+  left: 1rem;
+  top: 0.6rem;
+  z-index: 40;
+  padding: 0.55rem 0.85rem;
+  background: var(--text);
+  color: var(--bg);
+  text-decoration: none;
+  transform: translateY(-150%);
+}
+
+.skip:focus {
+  transform: none;
+}
+
+/* Header — same slots and metrics as Spectrum Patronum */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  min-height: var(--header-h);
+  padding: 0.2rem max(0.4rem, env(safe-area-inset-right)) 0.2rem max(0.4rem, env(safe-area-inset-left));
+  padding-top: max(0.2rem, env(safe-area-inset-top));
+  background: var(--bg);
+  pointer-events: none;
+}
+
+.site-header .social,
+.site-header .icon-nav,
+.site-header .lang {
+  pointer-events: auto;
+}
+
+.site-header .social {
+  justify-self: start;
+}
+
+.site-header .icon-nav {
+  justify-self: center;
+}
+
+.site-header .lang {
+  justify-self: end;
+}
+
+.social ul,
+.icon-nav ul {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social ul {
+  gap: 0.15rem;
+}
+
+.icon-nav ul {
+  gap: 0.05rem;
+}
+
+.social a,
+.icon-nav > ul > li > a,
+.icon-nav > ul > li > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(243, 238, 230, 0.45);
+  font: inherit;
+  line-height: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.social a {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
+.icon-nav > ul > li > a,
+.icon-nav > ul > li > button {
+  width: 2.35rem;
+  height: 2.35rem;
+}
+
+.social a:hover,
+.social a:focus-visible,
+.icon-nav > ul > li > a:hover,
+.icon-nav > ul > li > a:focus-visible,
+.icon-nav > ul > li > button:hover,
+.icon-nav > ul > li > button:focus-visible,
+.icon-nav > ul > li > button[aria-expanded="true"] {
+  color: var(--text);
+}
+
+.lang {
+  position: relative;
+}
+
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.lang-btn:hover,
+.lang-btn[aria-expanded="true"] {
+  background: var(--hover);
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  z-index: 40;
+  min-width: 11.5rem;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  background: #16121c;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.lang-menu[hidden] {
+  display: none;
+}
+
+.lang-menu a {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.98rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.lang-menu a[aria-selected="true"] {
+  box-shadow: inset 2px 0 0 var(--accent);
+  background: rgba(243, 238, 230, 0.06);
+}
+
+.lang-menu a:hover {
+  background: var(--hover);
+}
+
+/* Homepage lockup */
+.hero {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    calc(var(--header-h) + env(safe-area-inset-top) + 0.75rem)
+    max(1.25rem, env(safe-area-inset-right))
+    calc(1.5rem + env(safe-area-inset-bottom))
+    max(1.25rem, env(safe-area-inset-left));
+}
+
+.lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(86vw, 38rem, 74vh);
+  margin: 0;
+  font-weight: 500;
+}
+
+.mark {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 800 / 602;
+  background: transparent;
+}
+
+.logo-still,
+.logo-motion {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: transparent;
+  background-color: transparent;
+}
+
+.logo-motion {
+  display: none;
+  pointer-events: none;
+}
+
+.mark.is-playing .logo-motion {
+  display: block;
+}
+
+.mark.is-playing .logo-still {
+  visibility: hidden;
+}
+
+.wordmark {
+  display: block;
+  width: 62%;
+  height: auto;
+  margin-top: clamp(0.85rem, 2.2vw, 1.5rem);
+}
+
+@media (max-height: 520px) {
+  .hero {
+    padding-top: calc(var(--header-h) + 0.35rem);
+    padding-bottom: 0.75rem;
+  }
+
+  .lockup {
+    width: min(70vw, 52vh);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .logo-motion,
+  .mark.is-playing .logo-motion {
+    display: none !important;
+  }
+
+  .mark.is-playing .logo-still {
+    visibility: visible;
+  }
+}
