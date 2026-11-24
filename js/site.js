@@ -39,20 +39,20 @@
   function applyCopy() {
     var t = pack();
     document.documentElement.lang = lang;
-    if (t["meta.title"]) document.title = t["meta.title"];
-    ["description"].forEach(function (name) {
-      var el = document.querySelector('meta[name="' + name + '"]');
-      var key = "meta." + name;
-      if (el && t[key]) el.setAttribute("content", t[key]);
-    });
+    var page = document.body.getAttribute("data-page");
+    var titleKey = page ? page + ".title" : "meta.title";
+    var descKey = page ? page + ".description" : "meta.description";
+    if (t[titleKey]) document.title = t[titleKey];
+    var descEl = document.querySelector('meta[name="description"]');
+    if (descEl && t[descKey]) descEl.setAttribute("content", t[descKey]);
     var ogTitle = document.querySelector('meta[property="og:title"]');
     var ogDesc = document.querySelector('meta[property="og:description"]');
     var twTitle = document.querySelector('meta[name="twitter:title"]');
     var twDesc = document.querySelector('meta[name="twitter:description"]');
-    if (ogTitle && t["meta.title"]) ogTitle.setAttribute("content", t["meta.title"]);
-    if (ogDesc && t["meta.description"]) ogDesc.setAttribute("content", t["meta.description"]);
-    if (twTitle && t["meta.title"]) twTitle.setAttribute("content", t["meta.title"]);
-    if (twDesc && t["meta.description"]) twDesc.setAttribute("content", t["meta.description"]);
+    if (ogTitle && t[titleKey]) ogTitle.setAttribute("content", t[titleKey]);
+    if (ogDesc && t[descKey]) ogDesc.setAttribute("content", t[descKey]);
+    if (twTitle && t[titleKey]) twTitle.setAttribute("content", t[titleKey]);
+    if (twDesc && t[descKey]) twDesc.setAttribute("content", t[descKey]);
     document.querySelectorAll("[data-i18n]").forEach(function (el) {
       var key = el.getAttribute("data-i18n");
       if (t[key] != null) el.textContent = t[key];
@@ -60,6 +60,10 @@
     document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
       var key = el.getAttribute("data-i18n-aria");
       if (t[key] != null) el.setAttribute("aria-label", t[key]);
+    });
+    document.querySelectorAll("[data-i18n-title]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-title");
+      if (t[key] != null) el.setAttribute("title", t[key]);
     });
     document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
       var key = el.getAttribute("data-i18n-alt");
@@ -111,6 +115,14 @@
     }
 
     function openMenu() {
+      var panel = document.getElementById("contact-panel");
+      var contactBtn = document.getElementById("contact-btn");
+      if (panel && !panel.hidden) {
+        panel.hidden = true;
+        var backdrop = document.getElementById("contact-backdrop");
+        if (backdrop) backdrop.hidden = true;
+        if (contactBtn) contactBtn.setAttribute("aria-expanded", "false");
+      }
       menu.hidden = false;
       btn.setAttribute("aria-expanded", "true");
     }
